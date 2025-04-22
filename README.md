@@ -21,7 +21,7 @@ Este proyecto se enfoca en realizar e implementar un sistema de gestión de torn
 ![Diagrama de casos de uso](diagrams/casos-uso.png)
 
 ### Diagrama de Clases
-
+![Diagrama de clases](diagrams/clases.png)
 
 ## Estructura del Proyecto
 torneo-esports-uml/ <br>
@@ -37,6 +37,7 @@ torneo-esports-uml/ <br>
 `git clone https://github.com/L0cksat/torneo-esports-uml`
 
 2. Compliar y ejecutar el proyecto:
+   Al final no me ha dado tiempo realizar el código en Java, por lo tanto no hay compliación ni ejecución.
 
 ## Justificación del diseño
 (Tengo que poner aquí todas la justificaciones de la estructura y el cómo y por qué de la organización de las clases.)
@@ -58,10 +59,11 @@ torneo-esports-uml/ <br>
 
 
 
-**2. Identificación de los casos de uso y elaboración del diagrama:**
+**2. Identificación de los casos de uso y elaboración del diagrama:** 
+<br>
 El diagrama de los casos de uso se encuentran en la carpeta "diagrams"
 
-Justificación del **punto 1** "Gestión de equipos y jugadores"
+2.1 Justificación del **punto 1** "Gestión de equipos y jugadores", diagrama de casos de uso.
    <ul>
     <li>Registrar equipo</li>
     <li>Añadir jugadores a un equipo</li>
@@ -75,7 +77,42 @@ En el caso de uso **"Registar equipo"** (que desempeña el actor Adiministrador 
 En el caso de uso **"Añadir jugadores a un equipo"** (que también desempeña el actor Administrador de equipos), el sistema primero tendría que hacer una comprobación para ver si el equipo existe y luego una segunda comprobación para ver si el jugador haya sido añadido anteriormente o no, por lo tanto la acción principal **depende** de estas dos comprobaciones para poder ejectuarse correctamente. He añadido también el caso de uso **"Mostrar error de jugador ya existente"** que se ejectuará con el caso de uso base de **"Añadir jugadores a un equipo"**, con la condición que al realizar la comprobación previa, detecta que ya existe ese jugador.
 
 En el caso de uso **"Consultar lista de equipos y jugadores"** que pueden desempeñar los dos actores mencionados anteriormente para hacer comprobaciones de si han registrado correctamente tanto los equipos como los jugadores que forman parte de dichos equipos. El sistema tiene que comprobar si el equipo existe y luego si los jugadores de dicho equipo existen a través de los casos de uso de **"Comprobar si equipo existe"** y **"Comprobar si jugador ha sido añadido"** una vez realizado estas acciones, en mi opinion, el sistema le puede mostrar tanto al Administrador de equipos como el Administrador de torneos (y según que información desea que se le muestre el sistema) tanto una lista de equipos (a través del caso de uso **"Mostrar lista de equipos"** que está include/incluido en **"Consultar lista de equipos y jugadores"**), y de ese caso de uso se muestra la lista de jugadores de dichos equipos (a través del caso de uso **"Mostrar lista de equipos"** que extend/extiende de **"Mostrar lista de equipos"**). También he añadido el caso de uso **"Mostrar error de búsqueda"** para que muestre en pantalla a los actores que no se ha podido encontrar los datos que buscaban, que el escenario más probable es porque se ha equivocado a la hora de escribir el/los datos.
+<br>
+2.2 Justifcación del **punto 1** "Gestión de equipos y jugadores" diagrama de clases.
+He planteado crear 4 clases para poder realizar la gestión de los equipos y jugadores que los desglosaré abajo:
+<ul>
+    <li>Equipo</li>
+    <li>Jugador</li>
+    <li>SistemaRegistroTorneo</li>
+    <li>VistaSistemaRegistroTorneo</li>
+</ul>
+
+**Entidades/Clases:**
+<ol>
+    <li>**Equipo:**<br>
+    Para esta clase es lo que sería la entidad de equipo que sería de tipo modelo, aquí tendríamos los atributos que tiene dicha clase para poder indentificarla en este caso serían datos básicos como
+    **idEquipo**, **nombreEquipo**, **lugarOrigenEquipo**, **numeroMiembros** y tendría un método para poder añadir los jugadores a dicho equipo.</li>
+    <li>**Jugador:**<br>
+    Aquí tendríamos lo mismo como con Equipo que también sería tipo modelo, tendríamos los atributos básicos que para poder identificar la clase, que en este caso serían: **idJugador**, **nombreJugador**, **lugarOrigenJug** y 
+    tendría el método para mostrar los detalles del jugador en cuestión que sería mostrarDetalles()</li>
+    <li>**SistemaRegistroTorneo:**<br>
+    Aquí tendíamos la clase controlador del sistema donde albergan los demás métodos además de dos atributos que luego compartirá con la siguiente clase: VistaSistemaRegistroTorneo. Estos atributos serían los siguentes:
+    **List--Equipo--** y List--Jugador--. Aquí tendríamos los métodos CRUD de crear equipos y jugadores, modificar equipos y jugadores, eliminar equipos y jugadores, además de más métodos privados como  verificar si
+    los equipos y los jugadores ya existen en el sistema ya que es una función interno del sistema y no necesita ser vista por otra clase. En el caso de los métodos de **consultarListaEquipos()** y **consultarListaJugadores()** 
+    estos métodos son publicos para que la clase de VistaSistemaRegistroTorneo pueda verlos para poder ejectuar el registro por parte del usuario con los métodos de **procesarRegistroEquipos** y **procesarRegistroJugadores**.</li>
+    <li>**VistaSistemaRegistroTorneo:**<br>
+    Con está clase, mi planetamiento es hacer una clase de vista, que muestra los datos al usuario cuando consulta sobre las listas de los equipos y los jugadores, igual como ser el interfaz por donde lo cual el usuario pueda ejectuar el proceso de registrar el equipo y sus jugadores, que se puede hacer a través de los métodos **mostrarEquipos**, **mostrarJugadores** de consulta y con los métodos **procesarRegistroEquipos** y **procesarRegistrosJugadores** para realizar los registros.</li>
+</ol>
+<br>
+
+**Relaciones entre clases:**
+<ol>
+<li>Relación entre **Equipo** y **Jugador**: Aquí sería una relación de agregación ya que mi planteamiento es que pueden existir jugadores que no pertencen a ningún equipo o que estén sin equipo (el ejemplo que tengo en mente es si un jugador es expulsado de un equipo por mala conducta, o no puede participar por lesión, enfermedad, etc. Sigue siendo un jugador, pero estaría sin equipo) y así creo que justifico la relación de agregación.</li>
+<li>Relación entre **Equipo** y **SistemaRegistroTorneo** y **Jugador** y **SistemaRegistroTorneo**: En este caso serían dos relaciones de asociación unidirecional, en estos casos sería **SistemaRegistroTorneo** quién conoce a ambas clase de **Equipo** y **Jugador** y recibe los datos de ambas clases para poder luego realizar las gestiones pertinentes. En este caso las clases de **Equipo** y **Jugador** no tienen porque conocer al **SistemaRegistroTorneo**. </li>
+<li>Relación entre **VistaSistemaRegistroTorneo** y **SistemaRegistroTorneo**: Ésta relación es de asociación unidireccional también ya que es más común que el VistaSistemaRegistroTorneo mantenga una referencia persistente con la clase controlador SistemaRegistroTorneo para luego mostrar los datos de la consulta y procesar los registros.</li>
+</ol>
 
 
 ## Conclusiones
-Poner aquí el conocimiento que he adquirido durante la realización de esta tarea.
+Me ha gustado la tarea porque me ha dado la posibilidad de poder practicar este tipos de diagramas. Noto que hay muchas posiblidades y eso (siendo la persona que soy) me ha causado un poco de incertidumbre, pero me gusta la manera que se puede idear los conceptos de un sistema o aplicación con un lenguaje universal y luego convertirlo en código.
+Lamentable en mi caso no he podido traducirlo en Java, igual como no seguir con los demás puntos de la tarea (ya que se ha establecido tanto en clase como en el PDF de la tarea que son opcionales), pero me hubiera gustado realizarlos también. Lo más probable es que lo usaré para practicar antes de los examenes finales y así mantener fresco los conocimientos, porque necesito practicar más este lenguaje de diagramas más y así intentar dominarlo lo mejor que pueda. Lo veo muy útil desde una perspectiva ya que se puede diseñar la aplicación en su totalidad, pero como has comentado en tu última clase, ahora todos miran por conseguir un MPV (minimo producto viable) para poder sacarlo antes al mercado y así evitar que otros puedan capitalizar sobre tu idea, y después seguir ampliando el diseño a través de UML para poder aun así refinar más la aplicación.
