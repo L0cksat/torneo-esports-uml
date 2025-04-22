@@ -78,6 +78,7 @@ En el caso de uso **"Añadir jugadores a un equipo"** (que también desempeña e
 
 En el caso de uso **"Consultar lista de equipos y jugadores"** que pueden desempeñar los dos actores mencionados anteriormente para hacer comprobaciones de si han registrado correctamente tanto los equipos como los jugadores que forman parte de dichos equipos. El sistema tiene que comprobar si el equipo existe y luego si los jugadores de dicho equipo existen a través de los casos de uso de **"Comprobar si equipo existe"** y **"Comprobar si jugador ha sido añadido"** una vez realizado estas acciones, en mi opinion, el sistema le puede mostrar tanto al Administrador de equipos como el Administrador de torneos (y según que información desea que se le muestre el sistema) tanto una lista de equipos (a través del caso de uso **"Mostrar lista de equipos"** que está include/incluido en **"Consultar lista de equipos y jugadores"**), y de ese caso de uso se muestra la lista de jugadores de dichos equipos (a través del caso de uso **"Mostrar lista de equipos"** que extend/extiende de **"Mostrar lista de equipos"**). También he añadido el caso de uso **"Mostrar error de búsqueda"** para que muestre en pantalla a los actores que no se ha podido encontrar los datos que buscaban, que el escenario más probable es porque se ha equivocado a la hora de escribir el/los datos.
 <br>
+
 2.2 Justifcación del **punto 1** "Gestión de equipos y jugadores" diagrama de clases.
 He planteado crear 4 clases para poder realizar la gestión de los equipos y jugadores que los desglosaré abajo:
 <ul>
@@ -89,18 +90,18 @@ He planteado crear 4 clases para poder realizar la gestión de los equipos y jug
 
 **Entidades/Clases:**
 <ol>
-    <li>**Equipo:**<br>
+    <li>Equipo:<br>
     Para esta clase es lo que sería la entidad de equipo que sería de tipo modelo, aquí tendríamos los atributos que tiene dicha clase para poder indentificarla en este caso serían datos básicos como
     **idEquipo**, **nombreEquipo**, **lugarOrigenEquipo**, **numeroMiembros** y tendría un método para poder añadir los jugadores a dicho equipo.</li>
-    <li>**Jugador:**<br>
+    <li>Jugador:<br>
     Aquí tendríamos lo mismo como con Equipo que también sería tipo modelo, tendríamos los atributos básicos que para poder identificar la clase, que en este caso serían: **idJugador**, **nombreJugador**, **lugarOrigenJug** y 
     tendría el método para mostrar los detalles del jugador en cuestión que sería mostrarDetalles()</li>
-    <li>**SistemaRegistroTorneo:**<br>
+    <li>SistemaRegistroTorneo:<br>
     Aquí tendíamos la clase controlador del sistema donde albergan los demás métodos además de dos atributos que luego compartirá con la siguiente clase: VistaSistemaRegistroTorneo. Estos atributos serían los siguentes:
     **List--Equipo--** y List--Jugador--. Aquí tendríamos los métodos CRUD de crear equipos y jugadores, modificar equipos y jugadores, eliminar equipos y jugadores, además de más métodos privados como  verificar si
     los equipos y los jugadores ya existen en el sistema ya que es una función interno del sistema y no necesita ser vista por otra clase. En el caso de los métodos de **consultarListaEquipos()** y **consultarListaJugadores()** 
     estos métodos son publicos para que la clase de VistaSistemaRegistroTorneo pueda verlos para poder ejectuar el registro por parte del usuario con los métodos de **procesarRegistroEquipos** y **procesarRegistroJugadores**.</li>
-    <li>**VistaSistemaRegistroTorneo:**<br>
+    <li>VistaSistemaRegistroTorneo:<br>
     Con está clase, mi planetamiento es hacer una clase de vista, que muestra los datos al usuario cuando consulta sobre las listas de los equipos y los jugadores, igual como ser el interfaz por donde lo cual el usuario pueda ejectuar el proceso de registrar el equipo y sus jugadores, que se puede hacer a través de los métodos **mostrarEquipos**, **mostrarJugadores** de consulta y con los métodos **procesarRegistroEquipos** y **procesarRegistrosJugadores** para realizar los registros.</li>
 </ol>
 <br>
