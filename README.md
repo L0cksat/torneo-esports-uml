@@ -8,6 +8,7 @@ la estructura solicitada.
 
 ## Autor
 Stephen Nicholas Jones De Giorgi
+<br>
 Perfil de GitHub: https://github.com/L0cksat
 
 ## Descripción del Proyecto
